@@ -10,48 +10,51 @@
     <div class="row justify-content-center">  
         <div class="col-md-4">  
             <form method="POST" class="card card-body">  
-                <h1 class="text-center">Signup</h1>  
+                <h1 class="text-center">Registro</h1>  
+
                 {% if error %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error }}
-                    </div>
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
                 {% endif %}
+
                 {% csrf_token %}  
+
                 <div class="mb-3">  
                     <label for="cedula">Cédula:</label>  
                     <input type="text" name="cedula" id="cedula" class="form-control" placeholder="Escribe tu cédula" required>  
-                </div>
-                
-                <div class="mb-3">  
-                    <label for="username">Username:</label>  
-                    <input type="text" name="username" id="username" class="form-control" placeholder="Write your username" required>  
                 </div>  
 
                 <div class="mb-3">  
-                    <label for="email">Email:</label>  
-                    <input type="email" name="email" id="email" class="form-control" placeholder="Write your email" required>  
-                </div>
-
-                <div class="mb-3">  
-                    <label for="password1">Password:</label>  
-                    <input type="password" name="password1" id="password1" class="form-control" placeholder="Write your password" required>  
+                    <label for="username">Nombre de Usuario:</label>  
+                    <input type="text" name="username" id="username" class="form-control" placeholder="Escribe tu nombre de usuario" required>  
                 </div>  
 
                 <div class="mb-3">  
-                    <label for="password2">Confirm your password:</label>  
-                    <input type="password" name="password2" id="password2" class="form-control" placeholder="Repeat your password" required>  
+                    <label for="email">Correo Electrónico:</label>  
+                    <input type="email" name="email" id="email" class="form-control" placeholder="Escribe tu correo electrónico" required>  
                 </div>  
 
-                <!-- Checkbutton para Dueño -->
+                <div class="mb-3">  
+                    <label for="password1">Contraseña:</label>  
+                    <input type="password" name="password1" id="password1" class="form-control" placeholder="Escribe tu contraseña" required>  
+                </div>  
+
+                <div class="mb-3">  
+                    <label for="password2">Confirma tu contraseña:</label>  
+                    <input type="password" name="password2" id="password2" class="form-control" placeholder="Confirma tu contraseña" required>  
+                </div>  
+
+                <!-- Checkbox para Dueño -->
                 <div class="mb-3 form-check">  
                     <input type="checkbox" name="is_owner" id="is_owner" class="form-check-input">  
                     <label class="form-check-label" for="is_owner">  
                         ¿Deseas registrarte como Dueño?  
                     </label>  
-                </div>
+                </div>  
 
                 <button class="btn btn-primary w-100" type="submit">  
-                    Signup  
+                    Registrarse  
                 </button>  
             </form>  
         </div>  
