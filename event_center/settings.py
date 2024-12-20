@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'inicio',    # Aplicación de inicio
     'usuarios',  # Aplicación de usuarios
+    'contact',   # Aplicación de contacto
 ]
 
 # Middleware

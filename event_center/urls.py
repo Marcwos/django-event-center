@@ -20,5 +20,6 @@ from usuarios import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('inicio.urls')),
-    path('', include('usuarios.urls'))
+    path('', include('usuarios.urls')),
+    path('', include('contact.urls'))
 ] 
