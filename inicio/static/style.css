@@ -27,9 +27,11 @@
 }
 
 
-body {
+html, body {
     background-color: #EAEBEB;
     height: 2000px; /* Simulación de página larga */
+    display: flex;
+    flex-direction: column;
 }
 .navbar {
     background-color: transparent !important; /* Siempre transparente */
@@ -37,4 +39,23 @@ body {
 }
 .nav-link, .navbar-brand {
     color: white !important; /* Texto en blanco */
+}
+
+
+main {
+    flex: 1; /* Esto asegura que el contenido se extienda y empuje el footer hacia abajo */
+}
+
+footer {
+    margin-top: auto; /* Asegura que el footer esté al final */
+}
+
+.card-title {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.card-text {
+    font-size: 14px;
+    line-height: 1.6;
 }

@@ -24,7 +24,7 @@ INSTALLED_APPS = [
     'inicio',    # Aplicación de inicio
     'usuarios',  # Aplicación de usuarios
     'contact',   # Aplicación de contacto
-]
+    'servicios',] # Aplicación de servicios
 
 # Middleware
 MIDDLEWARE = [
