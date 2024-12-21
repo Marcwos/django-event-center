@@ -1,4 +1,5 @@
 {% extends 'inicio/base.html' %}
+<<<<<<< HEAD
 
 {% block content %}
 
@@ -12,10 +13,16 @@
 </div>
 </head>
 <html lang="es">
+=======
+{% load static %}
+
+{% block content %}
+>>>>>>> origin/justin
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contáctanos - Formulario de Contacto</title>
+<<<<<<< HEAD
     <style>
         * {
             margin: 0;
@@ -137,6 +144,18 @@
 
 <div class="contact-form">
     <h2 >ENVÍANOS UN MENSAJE:</h2>
+=======
+    <link rel="stylesheet" href="{% static 'css/stylecontact.css' %}">
+</head>
+
+<div class="hero">
+    <h1>Contactanos</h1>
+    <p style="font-size: 20px;">Si tienes alguna pregunta o necesitas asesoramiento, no dudes en contactarnos.</p>
+</div>
+
+<div class="contact-form">
+    <h2>ENVÍANOS UN MENSAJE:</h2>
+>>>>>>> origin/justin
     <div class="form-grid">
         <input type="text" placeholder="Tu Nombre">
         <input type="email" placeholder="Correo Electrónico">
@@ -145,6 +164,7 @@
     <textarea placeholder="Tu Mensaje"></textarea>
     <form method="POST" action="{% url 'contacto' %}">
         {% csrf_token %}
+<<<<<<< HEAD
         <button class="submit-btn">ENVIAR MENSAJE</button>
         
     </form>
@@ -275,4 +295,11 @@
 </body>
 </html>
 
+=======
+        <div class="form-actions">
+            <button class="submit-btn">ENVIAR MENSAJE</button>
+        </div>
+    </form>
+</div>
+>>>>>>> origin/justin
 {% endblock %}

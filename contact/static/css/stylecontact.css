@@ -1,0 +1,177 @@
+
+body {
+    background-color: rgb(41, 41, 41) !important;
+    color: white;
+}
+
+/* General navbar link styles */
+.nav-link {
+    color: white; /* Asegura que las letras sean blancas */
+    position: relative;
+    transition: color 0.3s ease; /* Transición suave para el color */
+}
+
+/* Subrayado animado para enlaces */
+.nav-link::after {
+    content: ''; /* Genera el subrayado */
+    position: absolute;
+    left: 0;
+    bottom: -3px; /* Ajusta la posición debajo del texto */
+    width: 0;
+    height: 2px; /* Grosor de la barra */
+    background-color: white; /* Color de la barra */
+    transition: width 0.3s ease; /* Efecto de animación */
+}
+
+/* Hover effect */
+.nav-link:hover::after {
+    width: 100%; /* Se extiende al 100% del ancho del enlace */
+}
+
+.nav-link:hover {
+    color: #f0f0f0; /* Cambia ligeramente el color del texto al pasar el mouse */
+}
+
+
+html, body {
+    background-color: #EAEBEB;
+    height: 2000px; /* Simulación de página larga */
+    display: flex;
+    flex-direction: column;
+}
+.navbar {
+    background-color: transparent !important; /* Siempre transparente */
+    border: none; /* Elimina bordes */
+}
+.nav-link, .navbar-brand {
+    color: white !important; /* Texto en blanco */
+}
+
+.logo {
+    color: white;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Banner Styles */
+.banner {
+    background-color: #000;
+    color: white;
+    text-align: center;
+    padding: 0.5rem;
+}
+
+.banner span {
+    color: #fff;
+    font-weight: bold;
+}
+
+/* Contact Container */
+.contact-container {
+    margin-top: 76px;
+    background-color: rgb(15, 15, 15);
+    color: white;
+}
+
+/* Hero Section */
+.hero {
+    height: 40vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #000000;
+    padding: 3rem 1rem;
+}
+
+.hero h1 {
+    color: white;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Contact Form */
+.contact-form {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+input, textarea, .dark-input {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    background-color: #1a1a1a;
+    border: none;
+    color: white;
+}
+
+textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+/* Form Actions */
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 1rem;
+}
+
+.submit-btn {
+    background-color: #b39273;
+    color: white;
+    padding: 0.8rem 2rem;
+    border: none;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background-color: #8b7355;
+}
+
+/* Email Preference */
+.email-preference {
+    text-align: right;
+}
+
+.email-preference p {
+    margin-bottom: 0.5rem;
+    color: white;
+}
+
+.email-preference a {
+    color: #b39273;
+    text-decoration: none;
+}
+
+/* Headings */
+h2 {
+    color: white;
+    margin-bottom: 2rem;
+}
+
+/* Placeholder */
+::placeholder {
+    color: #888;
+}
