@@ -1,4 +1,16 @@
-<!DOCTYPE html>
+{% extends 'inicio/base.html' %}
+
+{% block content %}
+
+<head>
+    <title>Contáctanos - Formulario de Contacto</title>
+</head>
+<div class="w-100 d-flex flex-column justify-content-center align-items-center text-center" style="height: 40vh; background-color: #0F0C0F;">
+
+    <h1 class="text-white">Contactanos</h1>
+    
+</div>
+</head>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -100,7 +112,7 @@
         }
 
         .submit-btn {
-            background-color: #b39273;
+            background-color:rgb(109, 67, 11);
             color: white;
             padding: 0.8rem 2rem;
             border: none;
@@ -109,7 +121,7 @@
         }
 
         .submit-btn:hover {
-            background-color: #8b7355;
+            background-color:rgb(148, 85, 8);
         }
 
         .email-preference {
@@ -118,49 +130,149 @@
         }
 
         .email-preference a {
-            color: #b39273;
+            color:rgb(0, 0, 0);
             text-decoration: none;
         }
     </style>
-</head>
-<body>
-    <nav class="navbar">
-        <a href="#" class="logo">TINOLOCO</a>
-        <div class="nav-links">
-            <a href="#">HOMBRE</a>
-            <a href="#">MUJER</a>
-            <a href="#">CORREAS</a>
-            <a href="#">MARCA</a>
-            <a href="#">SERVICIO</a>
-        </div>
-    </nav>
 
-    <div class="banner">
-        SI TIENES ALGUNA DUDA AQUI ES EL LUGAR!</div>
-
-    <div class="hero">
-        <h1>Contáctanos</h1>
-        <p>¿Preguntas? ¿Dudas? ¡Estamos listos para ayudar! Experimenta nuestro servicio de atención al cliente de clase mundial enviándonos un mensaje hoy.</p>
+<div class="contact-form">
+    <h2 >ENVÍANOS UN MENSAJE:</h2>
+    <div class="form-grid">
+        <input type="text" placeholder="Tu Nombre">
+        <input type="email" placeholder="Correo Electrónico">
+        <input type="text" placeholder="Número de Pedido">
     </div>
+    <textarea placeholder="Tu Mensaje"></textarea>
+    <form method="POST" action="{% url 'contacto' %}">
+        {% csrf_token %}
+        <button class="submit-btn">ENVIAR MENSAJE</button>
+        
+    </form>
+</div>
+<style>
+    body {
+        background-color:rgb(41, 41, 41) !important;
+    }
 
-    <div class="contact-form">
-        <h2>ENVÍANOS UN MENSAJE:</h2>
-        <div class="form-grid">
-            <input type="text" placeholder="Tu Nombre">
-            <input type="email" placeholder="Correo Electrónico">
-            <input type="text" placeholder="Número de Pedido">
-        </div>
-        <textarea placeholder="Tu Mensaje"></textarea>
-        <form method="POST" action="{% url 'contacto' %}">
-            {% csrf_token %}
-            <button class="submit-btn">ENVIAR MENSAJE</button>
-            
-        </form>
+    .contact-container {
+        margin-top: 76px;
+        background-color: rgb(15, 15, 15);
+        color: white;
+    }
 
-        <div class="email-preference">
-            <p>¿PREFIERES EL CORREO?</p>
-            <a href="mailto:justinalejandro996@gmail.com">justinalejandro996@gmail.com</a>
-        </div>
-    </div>
+    .hero {
+        background-color:rgb(15, 15, 15);
+        padding: 3rem 1rem;
+        text-align: center;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: white;
+    }
+
+    .contact-form {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2rem;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .dark-input {
+        width: 100%;
+        padding: 0.8rem;
+        margin-bottom: 1rem;
+        background-color: #1a1a1a;
+        border: none;
+        color: white;
+    }
+
+    textarea.dark-input {
+        height: 150px;
+        resize: vertical;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-top: 1rem;
+    }
+
+    .submit-btn {
+        background-color: #b39273;
+        color: white;
+        padding: 0.8rem 2rem;
+        border: none;
+        cursor: pointer;
+    }
+
+    .submit-btn:hover {
+        background-color: #8b7355;
+    }
+
+    .email-preference {
+        text-align: right;
+    }
+
+    .email-preference p {
+        margin-bottom: 0.5rem;
+        color: white;
+    }
+
+    .email-preference a {
+        color: #b39273;
+        text-decoration: none;
+    }
+
+    h2 {
+        color: white;
+        margin-bottom: 2rem;
+    }
+
+    ::placeholder {
+        color: #888;
+    }
+
+
+    .form-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-top: 1rem;
+    }
+
+    .submit-btn {
+        background-color: #b39273;
+        color: white;
+        padding: 0.8rem 2rem;
+        border: none;
+        cursor: pointer;
+        /* Removido el float: right */
+    }
+
+    .email-preference {
+        text-align: right;
+        /* Removido el margin-top */
+    }
+
+    .email-preference p {
+        margin-bottom: 0.5rem;
+    }
+
+    .email-preference a {
+        color: #b39273;
+        text-decoration: none;
+    }
+</style>
 </body>
 </html>
+
+{% endblock %}
