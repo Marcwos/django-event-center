@@ -36,6 +36,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# settings.py
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Esto debería estar establecido en True
+SESSION_COOKIE_AGE = 1209600  # Establecer un tiempo de vida en segundos (2 semanas) o un valor mayor según lo necesario
+
+
+
 ROOT_URLCONF = 'event_center.urls'
 
 # Configuración de plantillas

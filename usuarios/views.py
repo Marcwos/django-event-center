@@ -76,12 +76,16 @@ def verify_owners(request):
 
     if request.method == 'POST':
         user_id = request.POST.get('user_id')
+        verification_code_input = request.POST.get('verification_code_input')
         try:
             user = CustomUser.objects.get(id=user_id)
-            user.is_verified = True
-            user.verification_code = None
-            user.save()
-            messages.success(request, f"Usuario {user.username} verificado exitosamente.")
+            if verification_code_input == user.verification_code:
+                user.is_verified = True
+                user.verification_code = None
+                user.save()
+                messages.success(request, f"Usuario {user.username} verificado exitosamente.")
+            else:
+                messages.error(request, "Código de verificación incorrecto.")
         except CustomUser.DoesNotExist:
             messages.error(request, "Usuario no encontrado.")
 
