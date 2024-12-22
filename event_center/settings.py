@@ -23,7 +23,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'inicio',    # Aplicación de inicio
     'usuarios',  # Aplicación de usuarios
-]
+    'contact',   # Aplicación de contacto
+    'servicios',] # Aplicación de servicios
 
 # Middleware
 MIDDLEWARE = [
@@ -106,3 +107,6 @@ ADMINS = [('Administrador', DEFAULT_ADMIN_EMAIL)]
 
 # Clave de campo primario por defecto
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_URL = '/usuarios/login/'
+LOGOUT_REDIRECT_URL = '/'  # Redirigir al inicio después del logout
