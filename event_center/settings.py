@@ -21,10 +21,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'inicio',    # Aplicación de inicio
-    'usuarios',  # Aplicación de usuarios
+    'inicio',
+    'usuarios',
     'contact',   # Aplicación de contacto
-    'servicios',] # Aplicación de servicios
+    'servicios', # Aplicación de servicios
+    'reservas',  # Aplicación de reservas
+]
 
 # Middleware
 MIDDLEWARE = [
@@ -36,13 +38,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-# settings.py
-
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Esto debería estar establecido en True
-SESSION_COOKIE_AGE = 1209600  # Establecer un tiempo de vida en segundos (2 semanas) o un valor mayor según lo necesario
-
-
 
 ROOT_URLCONF = 'event_center.urls'
 
@@ -72,9 +67,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
-# Modelo de usuario personalizado
-AUTH_USER_MODEL = 'usuarios.CustomUser'
 
 # Validación de contraseñas
 AUTH_PASSWORD_VALIDATORS = [
@@ -110,3 +102,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = '/usuarios/login/'
 LOGOUT_REDIRECT_URL = '/'  # Redirigir al inicio después del logout
+
+# Modelo de usuario personalizado
+AUTH_USER_MODEL = 'usuarios.CustomUser'
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 1209600
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'

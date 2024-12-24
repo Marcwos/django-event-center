@@ -1,4 +1,3 @@
-# usuarios/views.py
 import random
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
@@ -112,3 +111,6 @@ class Send(View):
             return render(request, 'usuarios/send.html', {'success': 'Correo enviado correctamente'})
         else:
             return render(request, 'usuarios/send.html', {'error': 'No se pudo encontrar el correo del usuario'})
+
+def signin(request):
+    return render(request, "usuarios/login.html")
