@@ -1,0 +1,123 @@
+{% extends 'inicio/base.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <title>Seleccionar Servicios</title>
+    <style>
+        /* Estilo general */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #F4F7FC; /* Fondo azul claro mate */
+            color: #2C3E50; /* Azul oscuro */
+        }
+
+        .contenedor {
+            max-width: 80%; /* Más ancho para ocupar más espacio */
+            margin: 50px auto;
+            background-color: #FFFFFF; /* Fondo blanco */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px 40px;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #1A73E8; /* Azul mate */
+            text-align: center;
+        }
+
+        .servicio {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #E0E0E0;
+            padding-bottom: 20px;
+        }
+
+        .servicio img {
+            width: 120px;
+            height: 120px;
+            border-radius: 10px;
+            margin-right: 20px;
+            object-fit: cover;
+        }
+
+        .servicio label {
+            font-size: 18px;
+            margin: 0;
+            cursor: pointer;
+            color: #34495E;
+        }
+
+        .servicio label span {
+            display: block;
+            font-size: 14px;
+            color: #7F8C8D;
+            margin-top: 5px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .boton {
+            background-color: #1A73E8; /* Azul mate */
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .boton:hover {
+            background-color: #155AB2; /* Azul más oscuro al pasar el ratón */
+        }
+    </style>
+</head>
+<body>
+    <div class="contenedor">
+        <h1>Selecciona Servicios</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="servicio">
+                <img src="{% static 'images/decoracion.jpg' %}" alt="Decoración">
+                <label>
+                    <input type="checkbox" name="servicios" value="Decoración">
+                    Decoración
+                    <span>Personaliza tu evento con decoraciones únicas y elegantes.</span>
+                </label>
+            </div>
+            <div class="servicio">
+                <img src="{% static 'images/catering.jpg' %}" alt="Catering">
+                <label>
+                    <input type="checkbox" name="servicios" value="Catering">
+                    Catering
+                    <span>Disfruta de un servicio de comida de alta calidad para tu evento.</span>
+                </label>
+            </div>
+            <div class="servicio">
+                <img src="{% static 'images/fotografia.jpg' %}" alt="Fotografía">
+                <label>
+                    <input type="checkbox" name="servicios" value="Fotografía">
+                    Fotografía
+                    <span>Captura los mejores momentos de tu evento con profesionales.</span>
+                </label>
+            </div>
+            <button type="submit" class="boton">Confirmar</button>
+        </form>
+    </div>
+</body>
+</html>
+{% endblock %}

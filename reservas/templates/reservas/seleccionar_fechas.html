@@ -1,0 +1,153 @@
+<style>
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.calendario {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 350px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+header h2 {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.navegacion {
+    background-color: transparent;
+    border: none;
+    color: #333;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.dias-semana {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.dias {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+}
+
+.dia {
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dia:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.dia.vacio {
+    background-color: transparent;
+    border: none;
+    cursor: default;
+}
+ 
+</style>
+{% block content %}
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        let fechaActual = new Date();
+
+        function renderizarCalendario() {
+            const mesActual = fechaActual.getMonth();
+            const anioActual = fechaActual.getFullYear();
+
+            // Nombres de los meses
+            const nombresMeses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
+            // Actualizar encabezado del mes
+            document.getElementById("mes-actual").innerText = `${nombresMeses[mesActual]} ${anioActual}`;
+
+            // Obtener el primer día del mes y la cantidad de días en el mes
+            const primerDia = new Date(anioActual, mesActual, 1).getDay();
+            const totalDias = new Date(anioActual, mesActual + 1, 0).getDate();
+
+            const diasContainer = document.getElementById("dias");
+            diasContainer.innerHTML = "";
+
+            // Agregar días vacíos antes del primer día
+            for (let i = 0; i < primerDia; i++) {
+                diasContainer.innerHTML += `<div class="dia vacio"></div>`;
+            }
+
+            // Agregar días del mes
+            for (let dia = 1; dia <= totalDias; dia++) {
+                diasContainer.innerHTML += `<button class="dia" onclick="seleccionarFecha('${anioActual}-${(mesActual + 1).toString().padStart(2, '0')}-${dia.toString().padStart(2, '0')}')">${dia}</button>`;
+            }
+        }
+
+        function cambiarMes(direccion) {
+            fechaActual.setMonth(fechaActual.getMonth() + direccion);
+            renderizarCalendario();
+        }
+
+        function seleccionarFecha(fecha) {
+            // Redirige a la vista del salón con la fecha seleccionada
+            window.location.href = `/salon?fecha=${fecha}`;
+        }
+
+        window.onload = renderizarCalendario;
+    </script>
+</head>
+<body>
+    <div class="calendario">
+        <header>
+            <button class="navegacion" onclick="cambiarMes(-1)">&lt;</button>
+            <h2 id="mes-actual">Mes Año</h2>
+            <button class="navegacion" onclick="cambiarMes(1)">&gt;</button>
+        </header>
+        <div class="dias-semana">
+            <span>D</span><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span>
+        </div>
+        <div class="dias" id="dias">
+            <!-- Los días se generarán dinámicamente -->
+        </div>
+    </div>
+</body>
+</html>
+
+
+{% endblock %}
