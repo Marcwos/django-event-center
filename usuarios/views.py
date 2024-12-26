@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.views import View
 from .forms import CustomUserCreationForm
 from .models import CustomUser
+import random
 
 def signup(request):
     if request.method == 'GET':
@@ -21,33 +22,39 @@ def signup(request):
                     user = form.save(commit=False)
                     is_owner = request.POST.get('is_owner')
                     if is_owner:
+                        user.role = 'admin'
                         user.is_staff = True
                         user.is_verified = False
                         user.verification_code = str(random.randint(100000, 999999))
                         user.save()
+                        print("Enviando correo de verificación...")  # Verifica si este mensaje aparece en los logs
                         send_mail(
-                            'Verificación de Registro - Dueño',
-                            f'Nuevo registro pendiente: {user.username}. Código: {user.verification_code}',
-                            settings.EMAIL_HOST_USER,
-                            [settings.DEFAULT_ADMIN_EMAIL],
-                            fail_silently=False,
+                        'Verificación de Registro - Dueño',
+                        f'Nuevo registro pendiente: {user.username}. Código: {user.verification_code}',
+                        settings.EMAIL_HOST_USER,
+                        [settings.DEFAULT_ADMIN_EMAIL],
+                        fail_silently=False,
                         )
                         messages.info(request, "Registro exitoso. Pendiente de verificación del Administrador.")
                         return redirect('login')
 
+
+                    # Para usuarios normales
                     user.is_verified = True
                     user.is_staff = False
                     user.save()
                     auth_login(request, user)
                     messages.success(request, "Usuario registrado correctamente.")
                     return redirect('home')
-                except Exception:
+                except Exception as e:
+                    # Agrega un mensaje de error más detallado
+                    print(f"Error al registrar el usuario: {e}")
                     return render(request, "usuarios/signup.html", {"form": form, "error": "Error al registrar el usuario."})
             else:
                 return render(request, "usuarios/signup.html", {"form": form, "error": "Formulario inválido."})
         else:
             return render(request, "usuarios/signup.html", {"form": CustomUserCreationForm(), "error": "Las contraseñas no coinciden."})
-
+        
 def login(request):
     if request.method == 'GET':
         return render(request, 'usuarios/login.html', {'form': AuthenticationForm()})
@@ -66,30 +73,6 @@ def logout(request):
     auth_logout(request)
     return redirect('login')
 
-@login_required
-def verify_owners(request):
-    if not request.user.is_superuser:
-        messages.error(request, "No tienes permisos para acceder a esta página.")
-        return redirect('home')
-
-    pending_owners = CustomUser.objects.filter(is_verified=False, is_staff=True)
-
-    if request.method == 'POST':
-        user_id = request.POST.get('user_id')
-        verification_code_input = request.POST.get('verification_code_input')
-        try:
-            user = CustomUser.objects.get(id=user_id)
-            if verification_code_input == user.verification_code:
-                user.is_verified = True
-                user.verification_code = None
-                user.save()
-                messages.success(request, f"Usuario {user.username} verificado exitosamente.")
-            else:
-                messages.error(request, "Código de verificación incorrecto.")
-        except CustomUser.DoesNotExist:
-            messages.error(request, "Usuario no encontrado.")
-
-    return render(request, 'usuarios/verify_owners.html', {'owners': pending_owners})
 
 class Send(View):
     def get(self, request):

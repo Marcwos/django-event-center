@@ -91,30 +91,16 @@
         <h1>Selecciona Servicios</h1>
         <form method="post">
             {% csrf_token %}
+            {% for service in services %}
             <div class="servicio">
-                <img src="{% static 'images/decoracion.jpg' %}" alt="Decoración">
+                <img src="{{ service.image.url }}" alt="{{ service.title }}">
                 <label>
-                    <input type="checkbox" name="servicios" value="Decoración">
-                    Decoración
-                    <span>Personaliza tu evento con decoraciones únicas y elegantes.</span>
+                    <input type="checkbox" name="servicios" value="{{ service.title }}">
+                    {{ service.title }}
+                    <span>{{ service.description }}</span>
                 </label>
             </div>
-            <div class="servicio">
-                <img src="{% static 'images/catering.jpg' %}" alt="Catering">
-                <label>
-                    <input type="checkbox" name="servicios" value="Catering">
-                    Catering
-                    <span>Disfruta de un servicio de comida de alta calidad para tu evento.</span>
-                </label>
-            </div>
-            <div class="servicio">
-                <img src="{% static 'images/fotografia.jpg' %}" alt="Fotografía">
-                <label>
-                    <input type="checkbox" name="servicios" value="Fotografía">
-                    Fotografía
-                    <span>Captura los mejores momentos de tu evento con profesionales.</span>
-                </label>
-            </div>
+            {% endfor %}
             <button type="submit" class="boton">Confirmar</button>
         </form>
     </div>
