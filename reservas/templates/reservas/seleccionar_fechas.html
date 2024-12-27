@@ -1,3 +1,5 @@
+{% extends 'inicio/base.html' %} 
+
 {% load static %}
 {% block content %}
 <!DOCTYPE html>
@@ -14,11 +16,15 @@
             color: #333;
             margin: 0;
             padding: 0;
+        }
+
+        .contenido {
+            min-height: calc(100vh - 80px); /* Altura mínima: 100% menos la altura aproximada del footer */
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            flex-direction: column;
+            padding: 20px;
         }
 
         .calendario {
@@ -27,7 +33,6 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
-            width: 350px;
             margin-bottom: 20px;
         }
 
@@ -94,6 +99,8 @@
         }
 
         .boton-confirmar {
+            display: block;
+            margin: 10px auto;
             background-color: #007bff;
             color: white;
             border: none;
@@ -106,28 +113,26 @@
             margin-top: 10px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-
-        .boton-confirmar:hover {
-            background-color: #0056b3;
-        }
     </style>
 </head>
 <body>
-    <div class="calendario">
-        <header>
-            <button class="navegacion" onclick="cambiarMes(-1)">&lt;</button>
-            <h2 id="mes-actual">Mes Año</h2>
-            <button class="navegacion" onclick="cambiarMes(1)">&gt;</button>
-        </header>
-        <div class="dias-semana">
-            <span>D</span><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span>
+    <div class="contenido">
+        <div class="calendario">
+            <header>
+                <button class="navegacion" onclick="cambiarMes(-1)">&lt;</button>
+                <h2 id="mes-actual">Mes Año</h2>
+                <button class="navegacion" onclick="cambiarMes(1)">&gt;</button>
+            </header>
+            <div class="dias-semana">
+                <span>D</span><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span>
+            </div>
+            <div class="dias" id="dias">
+                <!-- Los días se generarán dinámicamente -->
+            </div>
         </div>
-        <div class="dias" id="dias">
-            <!-- Los días se generarán dinámicamente -->
-        </div>
-    </div>
 
-    <button class="boton-confirmar" onclick="confirmarSeleccion()">Confirmar Selección</button>
+        <button class="boton-confirmar" onclick="confirmarSeleccion()">Confirmar Selección</button>
+    </div>
 
     <script>
         const reservas = [{'fecha': '2024-12-04', 'total': 1}]; // Asegúrate de que la fecha esté en formato string.
@@ -196,5 +201,4 @@
     </script>
 </body>
 </html>
-
 {% endblock %}
