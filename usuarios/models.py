@@ -8,9 +8,9 @@ class CustomUser(AbstractUser):
         ('viewer', 'Viewer'),
     )
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='viewer')
-    verification_code = models.CharField(max_length=6, blank=True, null=True)  # Código de verificación
-    is_verified = models.BooleanField(default=False)  # Estado de verificación
-    cedula = models.CharField(max_length=20, unique=True, null=True, blank=True)  # Cedula única
+    verification_code = models.CharField(max_length=6, blank=True, null=True)
+    is_verified = models.BooleanField(default=False)
+    cedula = models.CharField(max_length=20, unique=True, null=True, blank=True)
 
     def __str__(self):
         return self.username

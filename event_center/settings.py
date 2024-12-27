@@ -28,13 +28,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'inicio',    # Aplicación de inicio
-    'usuarios',  # Aplicación de usuarios
+    'inicio',
+    'usuarios',
     'contact',   # Aplicación de contacto
-    'servicios',
-    'cloudinary',
-    'cloudinary_storage ',] # Aplicación de servicios
+    'servicios', # Aplicación de servicios
+    'reservas',  # Aplicación de reservas
+    
+]
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'justinimg',
+    'API_KEY': '571311729757641',
+    'API_SECRET': 'Y3ZE4',
+}
 
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 # Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -52,7 +59,7 @@ ROOT_URLCONF = 'event_center.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'inicio/templates/inicio')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -74,9 +81,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
-# Modelo de usuario personalizado
-AUTH_USER_MODEL = 'usuarios.CustomUser'
 
 # Validación de contraseñas
 AUTH_PASSWORD_VALIDATORS = [
@@ -110,10 +114,13 @@ ADMINS = [('Administrador', DEFAULT_ADMIN_EMAIL)]
 # Clave de campo primario por defecto
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'justinimg',
-    'API_KEY': '571311729757641',
-    'API_SECRET': 'Y3ZE4',
-}
+LOGIN_URL = '/usuarios/login/'
+LOGOUT_REDIRECT_URL = '/'  # Redirigir al inicio después del logout
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# Modelo de usuario personalizado
+AUTH_USER_MODEL = 'usuarios.CustomUser'
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 1209600
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+

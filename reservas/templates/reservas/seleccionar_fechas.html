@@ -1,0 +1,231 @@
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Incluye jQuery -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .calendario {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 350px;
+            margin-bottom: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        header h2 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .navegacion {
+            background-color: transparent;
+            border: none;
+            color: #333;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .dias-semana {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+        .dias {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+
+        .dia {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .dia.seleccionada {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .dia:hover:not(.reservada) {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .dia.vacio,
+        .dia.reservada {
+            background-color: #e0e0e0;
+            color: #999;
+            cursor: not-allowed;
+        }
+
+        .boton-confirmar {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .boton-confirmar:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="calendario">
+        <header>
+            <button class="navegacion" onclick="cambiarMes(-1)">&lt;</button>
+            <h2 id="mes-actual">Mes Año</h2>
+            <button class="navegacion" onclick="cambiarMes(1)">&gt;</button>
+        </header>
+        <div class="dias-semana">
+            <span>D</span><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span>
+        </div>
+        <div class="dias" id="dias">
+            <!-- Los días se generarán dinámicamente -->
+        </div>
+    </div>
+
+    <button class="boton-confirmar" onclick="confirmarSeleccion()">Confirmar Selección</button>
+
+    <script>
+        const reservas = {{ reservas|safe }};
+        let fechaActual = new Date();
+        let fechasSeleccionadas = [];
+
+        function renderizarCalendario() {
+            const mesActual = fechaActual.getMonth();
+            const anioActual = fechaActual.getFullYear();
+
+            const nombresMeses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+            document.getElementById("mes-actual").innerText = `${nombresMeses[mesActual]} ${anioActual}`;
+
+            const primerDia = new Date(anioActual, mesActual, 1).getDay();
+            const totalDias = new Date(anioActual, mesActual + 1, 0).getDate();
+
+            const diasContainer = document.getElementById("dias");
+            diasContainer.innerHTML = "";
+
+            for (let i = 0; i < primerDia; i++) {
+                diasContainer.innerHTML += `<div class="dia vacio"></div>`;
+            }
+
+            for (let dia = 1; dia <= totalDias; dia++) {
+                const fecha = `${anioActual}-${(mesActual + 1).toString().padStart(2, '0')}-${dia.toString().padStart(2, '0')}`;
+                const reserva = reservas.find(r => r.fecha === fecha);
+                const totalReservas = reserva ? reserva.total : 0;
+                const esReservada = totalReservas >= 3;
+                const esSeleccionada = fechasSeleccionadas.includes(fecha);
+
+                diasContainer.innerHTML += `
+                    <button class="dia ${esReservada ? 'reservada' : ''} ${esSeleccionada ? 'seleccionada' : ''}" 
+                            onclick="seleccionarFecha('${fecha}', this)" 
+                            ${esReservada ? 'disabled' : ''}>
+                        ${dia}
+                    </button>`;
+            }
+        }
+function renderizarCalendario() {
+    const mesActual = fechaActual.getMonth();
+    const anioActual = fechaActual.getFullYear();
+
+    const nombresMeses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+    document.getElementById("mes-actual").innerText = `${nombresMeses[mesActual]} ${anioActual}`;
+
+    const primerDia = new Date(anioActual, mesActual, 1).getDay();
+    const totalDias = new Date(anioActual, mesActual + 1, 0).getDate();
+
+    const diasContainer = document.getElementById("dias");
+    diasContainer.innerHTML = "";
+
+    for (let i = 0; i < primerDia; i++) {
+        diasContainer.innerHTML += `<div class="dia vacio"></div>`;
+    }
+
+    for (let dia = 1; dia <= totalDias; dia++) {
+        const fecha = `${anioActual}-${(mesActual + 1).toString().padStart(2, '0')}-${dia.toString().padStart(2, '0')}`;
+        const reserva = reservas.find(r => r.fecha === fecha);
+        const totalReservas = reserva ? reserva.total : 0;
+        const esReservada = totalReservas >= 3;
+        const esSeleccionada = fechasSeleccionadas.includes(fecha);
+
+        diasContainer.innerHTML += 
+            `<button class="dia ${esReservada ? 'reservada' : ''} ${esSeleccionada ? 'seleccionada' : ''}" 
+                    onclick="seleccionarFecha('${fecha}', this)" 
+                    ${esReservada ? 'disabled' : ''}>
+                ${dia}
+            </button>`;
+    }
+}
+
+        function cambiarMes(direccion) {
+            fechaActual.setMonth(fechaActual.getMonth() + direccion);
+            renderizarCalendario();
+        }
+
+        function seleccionarFecha(fecha, element) {
+            if (element.classList.contains('reservada')) return;
+
+            if (fechasSeleccionadas.includes(fecha)) {
+                fechasSeleccionadas = fechasSeleccionadas.filter(f => f !== fecha);
+            } else if (fechasSeleccionadas.length < 7) {
+                fechasSeleccionadas.push(fecha);
+            }
+
+            renderizarCalendario();
+        }
+
+        function confirmarSeleccion() {
+            if (fechasSeleccionadas.length > 0) {
+                window.location.href = `/salon/?fecha=${fechasSeleccionadas.join(',')}`;
+            } else {
+                alert("Selecciona al menos una fecha.");
+            }
+        }
+
+        window.onload = renderizarCalendario;
+    </script>
+</body>
+</html>
+{% endblock %}

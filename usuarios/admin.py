@@ -3,45 +3,49 @@ from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser
 from django import forms
 
-# Crear un formulario para manejar la verificación en el Admin
 class CustomUserAdminForm(forms.ModelForm):
+    verification_code_input = forms.CharField(
+        label="Código de Verificación",
+        required=False,
+        help_text="Ingresa el código de verificación enviado al correo del administrador."
+    )
+
     class Meta:
         model = CustomUser
-        fields = '__all__'
+        fields = ['username', 'email', 'role', 'cedula']  # No incluir is_verified
 
-    # Validar el código de verificación
     def clean(self):
         cleaned_data = super().clean()
-        verification_code = cleaned_data.get('verification_code')
-        is_verified = cleaned_data.get('is_verified')
+        verification_code_input = cleaned_data.get('verification_code_input')
 
-        if is_verified and not verification_code:
-            raise forms.ValidationError("No se puede verificar el usuario sin un código de verificación.")
+        # Validar que se ingresa el código de verificación
+        if not verification_code_input:
+            raise forms.ValidationError("Debes ingresar el código de verificación para verificar al usuario.")
+        
         return cleaned_data
 
 class CustomUserAdmin(UserAdmin):
     form = CustomUserAdminForm
     model = CustomUser
-    list_display = ['username', 'email', 'role', 'is_verified']  # Mostrar estado de verificación
-    list_filter = ['role', 'is_verified']  # Filtrar por estado de verificación
+    list_display = ['username', 'email', 'role', 'is_verified']
+    list_filter = ['role', 'is_verified']
 
     fieldsets = UserAdmin.fieldsets + (
-        ('Verification', {'fields': ('verification_code', 'is_verified')}),  # Agregar los campos
+        ('Verification', {'fields': ('verification_code_input',)}),  # Solo incluir el código
     )
 
-    readonly_fields = ['verification_code']  # Hacer el campo de verificación de solo lectura
-
-    # Acción para verificar manualmente al usuario
+    # Eliminar readonly_fields si no se necesita mostrar el código de verificación
     actions = ['verify_user']
 
-    def verify_user(self, request, queryset):
-        for user in queryset:
-            if user.verification_code:
-                user.is_verified = True
-                user.save()
-                self.message_user(request, f"Usuario {user.username} verificado correctamente.")
-            else:
-                self.message_user(request, f"El usuario {user.username} no tiene código de verificación.", level='error')
-    verify_user.short_description = "Verificar usuarios seleccionados"
+    def save_model(self, request, obj, form, change):
+        # Verificar el código de verificación al guardar
+        verification_code_input = form.cleaned_data.get('verification_code_input')
+        if verification_code_input == obj.verification_code:
+            obj.is_verified = True  # Verificar automáticamente si el código es correcto
+            obj.verification_code = None  # Limpiar el código de verificación
+        else:
+            self.message_user(request, f"El código de verificación ingresado para el usuario {obj.username} no es válido.", level='error')
+        
+        super().save_model(request, obj, form, change)  # Guardar el objeto
 
 admin.site.register(CustomUser, CustomUserAdmin)
