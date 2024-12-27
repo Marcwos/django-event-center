@@ -1,9 +1,16 @@
 import os
 from pathlib import Path
-from dotenv import load_dotenv
+import cloudinary 
+import cloudinary.uploader
+import cloudinary.api
+from cloudinary import CloudinaryImage 
+from cloudinary import CloudinaryVideo
+import cloudinary_storage
+
+#from dotenv import load_dotenv
 
 # Cargar variables de entorno desde el archivo .env
-load_dotenv()
+#load_dotenv()
 
 # Directorio base del proyecto
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +31,9 @@ INSTALLED_APPS = [
     'inicio',    # Aplicación de inicio
     'usuarios',  # Aplicación de usuarios
     'contact',   # Aplicación de contacto
-    'servicios',] # Aplicación de servicios
+    'servicios',
+    'cloudinary',
+    'cloudinary_storage ',] # Aplicación de servicios
 
 # Middleware
 MIDDLEWARE = [
@@ -100,3 +109,11 @@ ADMINS = [('Administrador', DEFAULT_ADMIN_EMAIL)]
 
 # Clave de campo primario por defecto
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'justinimg',
+    'API_KEY': '571311729757641',
+    'API_SECRET': 'Y3ZE4',
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
