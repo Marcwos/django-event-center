@@ -1,0 +1,168 @@
+{% extends 'inicio/base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <title>Seleccionar Salón</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .contenedor {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #003366;
+            margin-bottom: 30px;
+        }
+
+        .salon {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .salon:nth-child(odd) {
+            flex-direction: row-reverse;
+        }
+
+        .salon:hover {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .salon img {
+            width: 150px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin: 0 20px;
+        }
+
+        .salon-info {
+            flex: 1;
+            text-align: left;
+        }
+
+        .salon:nth-child(odd) .salon-info {
+            text-align: right;
+        }
+
+        .salon-info h2 {
+            margin: 0;
+            color: #333;
+            font-size: 20px;
+        }
+
+        .salon-info p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .salon input {
+            margin-left: 20px;
+            padding: 10px 15px;
+            background-color: #003366;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .salon input:hover {
+            background-color: #00509e;
+        }
+
+        .boton {
+            display: block;
+            width: 100%;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: #003366;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .boton:hover {
+            background-color: #00509e;
+        }
+
+        input[type="radio"]:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <header>Selecciona un Salón</header>
+    <div class="contenedor">
+        <h1>Salones Disponibles</h1>
+        {% if error %}
+            <p style="color: red;">{{ error }}</p>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <div class="salon">
+                <img src="{% static 'images/salon_a.jpg' %}" alt="Salón A">
+                <div class="salon-info">
+                    <h2>Salón A</h2>
+                    <p>Capacidad: 50 personas. Ideal para reuniones pequeñas y eventos corporativos.</p>
+                </div>
+                <input type="radio" name="salon" value="Salon A" {% if "Salon A" in salones_no_disponibles %}disabled{% endif %} required>
+            </div>
+
+            <div class="salon">
+                <img src="{% static 'images/salon_b.jpg' %}" alt="Salón B">
+                <div class="salon-info">
+                    <h2>Salón B</h2>
+                    <p>Capacidad: 100 personas. Perfecto para bodas, cumpleaños y conferencias.</p>
+                </div>
+                <input type="radio" name="salon" value="Salon B" {% if "Salon B" in salones_no_disponibles %}disabled{% endif %}>
+            </div>
+
+            <div class="salon">
+                <img src="{% static 'images/salon_c.jpg' %}" alt="Salón C">
+                <div class="salon-info">
+                    <h2>Salón C</h2>
+                    <p>Capacidad: 200 personas. Ideal para grandes eventos y galas.</p>
+                </div>
+                <input type="radio" name="salon" value="Salon C" {% if "Salon C" in salones_no_disponibles %}disabled{% endif %}>
+            </div>
+
+            <button type="submit" class="boton">Confirmar Selección</button>
+        </form>
+    </div>
+</body>
+</html>
+{% endblock %}

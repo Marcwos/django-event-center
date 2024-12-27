@@ -1,0 +1,40 @@
+/* General navbar link styles */
+.nav-link {
+    color: white; /* Asegura que las letras sean blancas */
+    position: relative;
+    transition: color 0.3s ease; /* Transición suave para el color */
+}
+
+/* Subrayado animado para enlaces */
+.nav-link::after {
+    content: ''; /* Genera el subrayado */
+    position: absolute;
+    left: 0;
+    bottom: -3px; /* Ajusta la posición debajo del texto */
+    width: 0;
+    height: 2px; /* Grosor de la barra */
+    background-color: white; /* Color de la barra */
+    transition: width 0.3s ease; /* Efecto de animación */
+}
+
+/* Hover effect */
+.nav-link:hover::after {
+    width: 100%; /* Se extiende al 100% del ancho del enlace */
+}
+
+.nav-link:hover {
+    color: #f0f0f0; /* Cambia ligeramente el color del texto al pasar el mouse */
+}
+
+
+body {
+    background-color: #EAEBEB;
+    height: 2000px; /* Simulación de página larga */
+}
+.navbar {
+    background-color: transparent !important; /* Siempre transparente */
+    border: none; /* Elimina bordes */
+}
+.nav-link, .navbar-brand {
+    color: white !important; /* Texto en blanco */
+}
