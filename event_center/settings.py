@@ -18,10 +18,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Seguridad
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-placeholder-key')
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
+ALLOWED_HOSTS= ['*']
+#ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
 # Aplicaciones instaladas
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -34,7 +36,7 @@ INSTALLED_APPS = [
     'servicios', # Aplicación de servicios
     'reservas',  # Aplicación de reservas
     'cloudinary',
-    'cloudinary_storage'
+    'cloudinary_storage',
     
 ]
 CLOUDINARY_STORAGE = {
@@ -99,8 +101,11 @@ USE_I18N = True
 USE_TZ = True
 
 # Archivos estáticos
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIR = [os.path.join(BASE_DIR, 'static')]
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Configuración de correo SMTP
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -126,3 +131,9 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_AGE = 1209600
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
+JAZZMIN_SETTINGS = {
+    "site_title": "Event Center",
+    'site_header': "Centro de Eventos",
+    'site_brand': "Centro de Eventos Tino Loco",
+    'copyright': "tinoloco.com",
+}
