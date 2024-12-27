@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calendario</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Incluye jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -130,7 +130,7 @@
     <button class="boton-confirmar" onclick="confirmarSeleccion()">Confirmar Selección</button>
 
     <script>
-        const reservas = {{ reservas|safe }};
+        const reservas = [{'fecha': '2024-12-04', 'total': 1}]; // Asegúrate de que la fecha esté en formato string.
         let fechaActual = new Date();
         let fechasSeleccionadas = [];
 
@@ -166,38 +166,6 @@
                     </button>`;
             }
         }
-function renderizarCalendario() {
-    const mesActual = fechaActual.getMonth();
-    const anioActual = fechaActual.getFullYear();
-
-    const nombresMeses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-    document.getElementById("mes-actual").innerText = `${nombresMeses[mesActual]} ${anioActual}`;
-
-    const primerDia = new Date(anioActual, mesActual, 1).getDay();
-    const totalDias = new Date(anioActual, mesActual + 1, 0).getDate();
-
-    const diasContainer = document.getElementById("dias");
-    diasContainer.innerHTML = "";
-
-    for (let i = 0; i < primerDia; i++) {
-        diasContainer.innerHTML += `<div class="dia vacio"></div>`;
-    }
-
-    for (let dia = 1; dia <= totalDias; dia++) {
-        const fecha = `${anioActual}-${(mesActual + 1).toString().padStart(2, '0')}-${dia.toString().padStart(2, '0')}`;
-        const reserva = reservas.find(r => r.fecha === fecha);
-        const totalReservas = reserva ? reserva.total : 0;
-        const esReservada = totalReservas >= 3;
-        const esSeleccionada = fechasSeleccionadas.includes(fecha);
-
-        diasContainer.innerHTML += 
-            `<button class="dia ${esReservada ? 'reservada' : ''} ${esSeleccionada ? 'seleccionada' : ''}" 
-                    onclick="seleccionarFecha('${fecha}', this)" 
-                    ${esReservada ? 'disabled' : ''}>
-                ${dia}
-            </button>`;
-    }
-}
 
         function cambiarMes(direccion) {
             fechaActual.setMonth(fechaActual.getMonth() + direccion);
@@ -218,7 +186,7 @@ function renderizarCalendario() {
 
         function confirmarSeleccion() {
             if (fechasSeleccionadas.length > 0) {
-                window.location.href = `/salon/?fecha=${fechasSeleccionadas.join(',')}`;
+                window.location.href = `/reservas/salon/?fecha=${fechasSeleccionadas.join(',')}`;
             } else {
                 alert("Selecciona al menos una fecha.");
             }
@@ -228,4 +196,5 @@ function renderizarCalendario() {
     </script>
 </body>
 </html>
+
 {% endblock %}

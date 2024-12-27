@@ -45,5 +45,6 @@ def delete_service(request, service_id):
     return render(request, 'servicios/delete_service.html', {'service': service})
 
 def list_services(request):
-    services = Service.objects.all()
-    return render(request, 'servicios/servicios.html', {'services': services})
+    services = Service.objects.all()  # Carga todos los servicios desde la base de datos
+    can_add_service = request.user.is_authenticated and request.user.role in ['admin', 'editor']
+    return render(request, 'servicios/servicios.html', {'services': services, 'can_add_service': can_add_service})
