@@ -10,4 +10,4 @@ class Reserva(models.Model):
         return f"Reserva para {self.salon} el {self.fecha}"
     
 class Photo(models.Model):
-    image= CloudinaryField('image')
+    image= CloudinaryField('image', null=True)
