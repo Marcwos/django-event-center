@@ -22,13 +22,15 @@
                     <div class="card-body text-center bg-light">
                         <h5 class="card-title">{{ service.title }}</h5>
                         <p class="card-text">{{ service.description }}</p>
+                        <!-- Botón de Reservar -->
+                        <a href="{% url 'reservas:seleccionar_fechas' %}" class="btn-reservar">Reservar</a>
                     </div>
                 </div>
             </div>
         {% endfor %}
-    {% else %}
-        <p>No hay servicios disponibles en este momento.</p>
-    {% endif %}
+        {% else %}
+            <p>No hay servicios disponibles en este momento.</p>
+        {% endif %}
         
         <!-- Botón para agregar servicios (solo si tiene permisos) -->
         {% if can_add_service %}
@@ -40,5 +42,25 @@
         {% endif %}
     </div>
 </div>
-{% endblock %}
 
+<style>
+    .btn-reservar {
+        background-color: #f8bf1a; /* Cambia este valor al color que prefieras */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 5px; /* Opcional: redondea las esquinas */
+        transition: background-color 0.3s ease; /* Añade una transición suave */
+    }
+
+    .btn-reservar:hover {
+        background-color: #e04e2a; /* Color al pasar el ratón por encima */
+    }
+</style>
+{% endblock %}

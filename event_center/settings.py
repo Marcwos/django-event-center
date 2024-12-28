@@ -25,7 +25,8 @@ INSTALLED_APPS = [
     'usuarios',
     'contact',   # Aplicación de contacto
     'servicios', # Aplicación de servicios
-    'reservas',  # Aplicación de reservas
+    'reservas', 
+    'salones',# Aplicación de reservas
 ]
 
 # Middleware
