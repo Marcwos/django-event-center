@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'contact',   # Aplicación de contacto
     'servicios', # Aplicación de servicios
     'reservas',  # Aplicación de reservas
+    'salones',   # Aplicacion de salones
     'cloudinary',
     'cloudinary_storage',
     
