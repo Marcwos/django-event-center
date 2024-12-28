@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'salones',   # Aplicacion de salones
     'cloudinary',
     'cloudinary_storage',
+    'widget_tweaks',
     
 ]
 load_dotenv()
