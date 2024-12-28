@@ -4,6 +4,8 @@ from .models import Service
 from .forms import ServiceForm  # Necesitas crear este formulario
 from .forms import PhotoForm
 from .models import Photo
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 def is_owner(user):
     return user.role == 'admin' and user.is_verified
 
@@ -54,8 +56,19 @@ def upload_photo(request):
     if request.method == 'POST':
         form = PhotoForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            return redirect('photo_list')  # Cambia esto según tus rutas
+            photo = form.save(commit=False)
+            photo.save()
+            messages.success(request, 'Foto subida exitosamente!')
+            return redirect('photo_list')
     else:
         form = PhotoForm()
     return render(request, 'servicios/subirfoto.html', {'form': form})
+
+def photo_list(request):
+    photos = Photo.objects.all()
+    return render(request, 'servicios/photo_list.html', {'photos': photos})
+
+def photo_detail(request, pk):
+    photo = get_object_or_404(Photo, pk=pk)
+    return render(request, 'servicios/photo_detail.html', {'photo': photo})
+

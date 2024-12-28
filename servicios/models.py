@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from cloudinary.models import CloudinaryField
+from django.urls import reverse
 
 class Service(models.Model):
     title = models.CharField(max_length=200)
@@ -11,14 +12,17 @@ class Service(models.Model):
     def __str__(self):
         return self.title
 
-    
+
+
+from cloudinary.models import CloudinaryField
+from django.db import models
+
 class Photo(models.Model):
-    # Título descriptivo para la imagen
     title = models.CharField(max_length=100)
-    # Campo para almacenar la imagen en Cloudinary
-    image = CloudinaryField('image', blank=False)
-    # Fecha de creación de la imagen
+    description = models.TextField(blank=True, null=True)
+    image = CloudinaryField('image')  # Este campo manejará la subida a Cloudinary automáticamente
     created_at = models.DateTimeField(auto_now_add=True)
+
 
     def __str__(self):
         return self.title

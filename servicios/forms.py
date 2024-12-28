@@ -11,8 +11,14 @@ class ServiceForm(forms.ModelForm):
 
 
 class PhotoForm(forms.ModelForm):
-    image= CloudinaryFileField()
+    image = CloudinaryFileField(
+        options = {
+            'folder': 'mi-proyecto/photos/',
+            'allowed_formats': ['jpg', 'jpeg', 'png'],
+            'public_id': None,
+        }
+    )
     
     class Meta:
-        model = Photo 
-        fields= ['title','image']
+        model = Photo
+        fields = ['title', 'image', 'description']

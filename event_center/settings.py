@@ -6,6 +6,7 @@ import cloudinary.api
 from cloudinary import CloudinaryImage 
 from cloudinary import CloudinaryVideo
 import cloudinary_storage
+from dotenv import load_dotenv
 
 #from dotenv import load_dotenv
 
@@ -39,11 +40,21 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     
 ]
+load_dotenv()
+
+
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'justinimg',
+    'CLOUD_NAME': 'dcdygdkwi',
     'API_KEY': '571311729757641',
-    'API_SECRET': 'Y3ZE4',
+    'API_SECRET': 'sw1BB5lVFvWXU3C-UlBhkKRbyjI',
 }
+
+cloudinary.config( 
+    cloud_name = CLOUDINARY_STORAGE['CLOUD_NAME'],
+    api_key = CLOUDINARY_STORAGE['API_KEY'],
+    api_secret = CLOUDINARY_STORAGE['API_SECRET']
+)
+
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 # Middleware
