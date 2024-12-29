@@ -1,0 +1,31 @@
+{% extends 'inicio/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class="my-4">Gestión de Salones</h1>
+    <a href="{% url 'crear_salon' %}" class="btn btn-success mb-3">Agregar Salón</a>
+    <div class="row">
+        {% for salon in salones %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{{ salon.image.url }}" class="card-img-top" alt="{{ salon.nombre }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ salon.nombre }}</h5>
+                    <p class="card-text">
+                        Capacidad: {{ salon.capacidad_min }} - {{ salon.capacidad_max }} personas<br>
+                        {% if salon.tiene_escenario %}
+                            Incluye escenario
+                        {% else %}
+                            Sin escenario
+                        {% endif %}
+                    </p>
+                    <p class="card-text">{{ salon.caracteristicas|default:"Sin características adicionales" }}</p>
+                    <a href="{% url 'edit_salon' salon.id %}" class="btn btn-primary">Editar</a>
+                    <a href="{% url 'delete_salon' salon.id %}" class="btn btn-danger">Eliminar</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

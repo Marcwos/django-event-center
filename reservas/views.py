@@ -3,12 +3,15 @@ from .models import Reserva
 from django.http import HttpResponseBadRequest
 from django.db.models import Count
 from servicios.models import Service
-
+from django.contrib.auth.decorators import user_passes_test, login_required
+@login_required
 def seleccionar_fechas(request):
     reservas = Reserva.objects.values('fecha').annotate(total=Count('salon'))
     context = {'reservas': list(reservas)}
     return render(request, "reservas/seleccionar_fechas.html", context)
 
+
+@login_required
 def seleccionar_salon(request):
     cadena_fechas = request.GET.get('fecha', '')
     if not cadena_fechas:
@@ -40,6 +43,7 @@ def seleccionar_salon(request):
 
     return render(request, 'reservas/seleccionar_salon.html', context)
 
+@login_required
 def seleccionar_servicios(request):
     services = Service.objects.all()
     if request.method == 'POST':
@@ -57,6 +61,7 @@ def seleccionar_servicios(request):
 
     return render(request, 'reservas/seleccionar_servicios.html', {'services': services})
 
+@login_required
 def resumen_reserva(request):
     fechas = request.session.get('fechas', [])
     salon = request.session.get('salon')

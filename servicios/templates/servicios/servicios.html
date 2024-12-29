@@ -9,10 +9,17 @@
         en diferentes áreas para que puedas mejorar la experiencia de tu celebración.
     </p>
 </div>
-
 <!-- Sección de tarjetas -->
 {% load static %}
 <div class="container my-5">
+    <!-- Botón para agregar servicios (solo si tiene permisos) -->
+    {% if can_add_service %}
+    <div class="text-end mb-4">
+        <a href="{% url 'manage_services' %}" class="btn btn-primary">
+            <i class="fas fa-cogs"></i> Gestionar Servicios
+        </a>
+    </div>
+    {% endif %}
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-4">
         {% if services %}
         {% for service in services %}
@@ -40,6 +47,7 @@
             </a>
         </div>
         {% endif %}
+
     </div>
 </div>
 

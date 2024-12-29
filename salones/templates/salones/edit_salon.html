@@ -1,0 +1,36 @@
+{% extends 'inicio/base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="container">
+    <h1>Editar Salón</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="{{ form.nombre.id_for_label }}" class="form-label">{{ form.nombre.label }}</label>
+            {% render_field form.nombre class="form-control" %}
+        </div>
+        <div class="mb-3">
+            <label for="{{ form.image.id_for_label }}" class="form-label">{{ form.image.label }}</label>
+            {% render_field form.image class="form-control" %}
+        </div>
+        <div class="mb-3">
+            <label for="{{ form.capacidad_min.id_for_label }}" class="form-label">{{ form.capacidad_min.label }}</label>
+            {% render_field form.capacidad_min class="form-control" %}
+        </div>
+        <div class="mb-3">
+            <label for="{{ form.capacidad_max.id_for_label }}" class="form-label">{{ form.capacidad_max.label }}</label>
+            {% render_field form.capacidad_max class="form-control" %}
+        </div>
+        <div class="mb-3 form-check">
+            <label class="form-check-label" for="{{ form.tiene_escenario.id_for_label }}">{{ form.tiene_escenario.label }}</label>
+            {% render_field form.tiene_escenario class="form-check-input" %}
+        </div>
+        <div class="mb-3">
+            <label for="{{ form.caracteristicas.id_for_label }}" class="form-label">{{ form.caracteristicas.label }}</label>
+            {% render_field form.caracteristicas class="form-control" %}
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        <a href="{% url 'manage_salones' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
