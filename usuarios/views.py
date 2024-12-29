@@ -3,14 +3,14 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login, logout as auth_logout, authenticate
 from django.contrib import messages
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAl
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.views import View
 from .forms import CustomUserCreationForm
 from .models import CustomUser
 import random
-
+from django.template import loader,Context
 def signup(request):
     if request.method == 'GET':
         return render(request, "usuarios/signup.html", {'form': CustomUserCreationForm()})
