@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Service
 from .forms import ServiceForm  # Necesitas crear este formulario
-
+from django.contrib import messages
 def is_owner(user):
     return user.role == 'admin' and user.is_verified
 
@@ -42,9 +42,11 @@ def delete_service(request, service_id):
     if request.method == 'POST':
         service.delete()
         return redirect('manage_services')
-    return render(request, 'servicios/delete_service.html', {'service': service})
+    return render(request, 'servicios/delete_services.html', {'service': service})
 
 def list_services(request):
     services = Service.objects.all()  # Carga todos los servicios desde la base de datos
     can_add_service = request.user.is_authenticated and request.user.role in ['admin', 'editor']
     return render(request, 'servicios/servicios.html', {'services': services, 'can_add_service': can_add_service})
+
+

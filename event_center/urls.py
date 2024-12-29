@@ -8,4 +8,5 @@ urlpatterns = [
     path('contact/', include('contact.urls')),
     path('servicios/', include('servicios.urls')),  # Prefijo para servicios
     path('reservas/', include('reservas.urls')),
+    path('salones/', include('salones.urls')),
 ]

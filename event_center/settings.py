@@ -1,9 +1,17 @@
 import os
 from pathlib import Path
+import cloudinary 
+import cloudinary.uploader
+import cloudinary.api
+from cloudinary import CloudinaryImage 
+from cloudinary import CloudinaryVideo
+import cloudinary_storage
 from dotenv import load_dotenv
 
+#from dotenv import load_dotenv
+
 # Cargar variables de entorno desde el archivo .env
-load_dotenv()
+#load_dotenv()
 
 # Directorio base del proyecto
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -11,10 +19,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Seguridad
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-placeholder-key')
 DEBUG = os.getenv('DEBUG', 'True') == 'True'
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
+ALLOWED_HOSTS= ['*']
+#ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
 # Aplicaciones instaladas
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -24,11 +34,31 @@ INSTALLED_APPS = [
     'inicio',
     'usuarios',
     'contact',   # Aplicación de contacto
-    'servicios', # Aplicación de servicios
-    'reservas', 
-    'salones',# Aplicación de reservas
-]
+    'servicios', # Aplicación de serviciosplicación de reservas
+    'reservas',  # Aplicación de reservas
+    'salones',   # Aplicacion de salones
+    'cloudinary',
+    'cloudinary_storage',
+    
 
+]
+load_dotenv()
+
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dcdygdkwi',
+    'API_KEY': '571311729757641',
+    'API_SECRET': 'sw1BB5lVFvWXU3C-UlBhkKRbyjI',
+}
+
+cloudinary.config( 
+    cloud_name = CLOUDINARY_STORAGE['CLOUD_NAME'],
+    api_key = CLOUDINARY_STORAGE['API_KEY'],
+    api_secret = CLOUDINARY_STORAGE['API_SECRET']
+)
+
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 # Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -84,8 +114,11 @@ USE_I18N = True
 USE_TZ = True
 
 # Archivos estáticos
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIR = [os.path.join(BASE_DIR, 'static')]
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Configuración de correo SMTP
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -111,3 +144,9 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_AGE = 1209600
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
+JAZZMIN_SETTINGS = {
+    "site_title": "Event Center",
+    'site_header': "Centro de Eventos",
+    'site_brand': "Centro de Eventos Tino Loco",
+    'copyright': "tinoloco.com",
+}

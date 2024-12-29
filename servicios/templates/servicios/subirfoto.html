@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="grid grid-cols-3 gap-4">
+    <body>
+        <h1>Subir Imagen</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Subir</button>
+        </form>
+    </body>
+    {% for photo in photos %}
+    <div class="card">
+        <img src="{{ photo.get_thumbnail }}" alt="{{ photo.title }}" 
+             class="w-full h-48 object-cover">
+        <div class="p-4">
+            <h3 class="text-lg font-bold">{{ photo.title }}</h3>
+            <p class="text-sm text-gray-600">{{ photo.created_at|date:"d/m/Y" }}</p>
+            {% if photo.description %}
+                <p class="mt-2">{{ photo.description }}</p>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
