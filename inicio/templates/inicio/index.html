@@ -1,4 +1,4 @@
-{% extends 'inicio/base.html' %} 
+{% extends 'inicio/base.html' %}
 
 {% block content %}
 
@@ -23,9 +23,12 @@
         <div class="col-md-6">
             <div class="card h-100 text-center">
                 <div class="card-body">
-                    <div style="width: 100%; height: 150px; background-color: #EAEBEB; display: flex; align-items: center; justify-content: center;">**Imagen**</div>
+                    <img src="{% static 'inicio/img/evento1.jpg' %}" 
+                         class="img-fluid" 
+                         style="height: 200px; object-fit: cover; border-radius: 15px; border: 2px solid #ddd;" 
+                         alt="Aniversarios">
                     <h5 class="card-title mt-3">Aniversarios</h5>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <p class="card-text">Celebre años de amor y momentos especiales en un ambiente lleno de calidez, elegancia y atención a cada detalle.</p>
                     <a href="{% url 'salones' %}" class="btn btn-warning">Ver Salones</a>
                 </div>
             </div>
@@ -34,9 +37,12 @@
         <div class="col-md-6">
             <div class="card h-100 text-center">
                 <div class="card-body">
-                    <div style="width: 100%; height: 150px; background-color: #EAEBEB; display: flex; align-items: center; justify-content: center;">**Imagen**</div>
+                    <img src="{% static 'inicio/img/evento2.jpg' %}" 
+                         class="img-fluid" 
+                         style="height: 200px; object-fit: cover; border-radius: 15px; border: 2px solid #ddd;" 
+                         alt="Quinceañeras">
                     <h5 class="card-title mt-3">Quinceañeras</h5>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <p class="card-text">Transformamos este día único en un recuerdo mágico, con espacios diseñados para resaltar cada instante especial.</p>
                     <a href="{% url 'salones' %}" class="btn btn-warning">Ver Salones</a>
                 </div>
             </div>
@@ -47,9 +53,12 @@
         <div class="col-md-6">
             <div class="card h-100 text-center">
                 <div class="card-body">
-                    <div style="width: 100%; height: 150px; background-color: #EAEBEB; display: flex; align-items: center; justify-content: center;">**Imagen**</div>
+                    <img src="{% static 'inicio/img/evento3.jpg' %}" 
+                         class="img-fluid" 
+                         style="height: 200px; object-fit: cover; border-radius: 15px; border: 2px solid #ddd;" 
+                         alt="Bodas">
                     <h5 class="card-title mt-3">Bodas</h5>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <p class="card-text">El inicio de su historia juntos merece un entorno inolvidable, adaptado a sus sueños y a la altura de este gran día.</p>
                     <a href="{% url 'salones' %}" class="btn btn-warning">Ver Salones</a>
                 </div>
             </div>
@@ -58,9 +67,12 @@
         <div class="col-md-6">
             <div class="card h-100 text-center">
                 <div class="card-body">
-                    <div style="width: 100%; height: 150px; background-color: #EAEBEB; display: flex; align-items: center; justify-content: center;">**Imagen**</div>
+                    <img src="{% static 'inicio/img/Organizador.jpg' %}" 
+                         class="img-fluid" 
+                         style="height: 200px; object-fit: cover; border-radius: 15px; border: 2px solid #ddd;" 
+                         alt="Conferencias">
                     <h5 class="card-title mt-3">Conferencias</h5>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <p class="card-text">Espacios modernos y versátiles para impulsar el éxito de sus eventos profesionales y fomentar grandes ideas.</p>
                     <a href="{% url 'salones' %}" class="btn btn-warning">Ver Salones</a>
                 </div>
             </div>
