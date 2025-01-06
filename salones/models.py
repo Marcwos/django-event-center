@@ -19,12 +19,6 @@ class Salon(models.Model):
         verbose_name="Características adicionales",
         help_text="Por ejemplo: Libre vista, cocina, iluminación especial."
     )
-    owner = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name='salones',
-        verbose_name="Propietario"
-    )
 
     def __str__(self):
         return self.nombre

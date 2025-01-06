@@ -4,22 +4,23 @@
 {% load static %}
 <style>
     /* styles.css */
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        color: #333;
+        body {
         margin: 0;
         padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #F4F7FC;
+        color: #2C3E50;
     }
 
     .contenedor {
-        max-width: 900px;
-        margin: 30px auto;
-        padding: 20px;
-        background-color: #ffffff;
-        border-radius: 8px;
+        max-width: 80%;
+        margin: 100px auto; /* Cambiar de 50px a 100px para evitar colisión */
+        background-color: #FFFFFF;
+        border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 30px 40px;
     }
+
 
     .titulo {
         text-align: center;
@@ -91,13 +92,11 @@
     <div class="imagenes">
         <h2>Servicios Seleccionados</h2>
         <div class="galeria">
+            {% for servicio in servicios %}
             <div class="imagen-servicio">
-                <img src="{% static 'imagen_servicio_1.jpg' %}" alt="Servicio 1">
+                <img src="{{ servicio.image.url }}" alt="{{ servicio.title }}">
             </div>
-            <div class="imagen-servicio">
-                <img src="{% static 'imagen_servicio_2.jpg' %}" alt="Servicio 2">
-            </div>
-            <!-- Añadir más imágenes según se necesite -->
+            {% endfor %}
         </div>
     </div>
     <a href="{% url 'reservas:seleccionar_fechas' %}" class="boton">Volver</a>

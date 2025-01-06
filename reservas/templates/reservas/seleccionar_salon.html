@@ -1,4 +1,5 @@
 {% extends 'inicio/base.html' %}
+
 {% block content %}
 <!DOCTYPE html>
 <html>
@@ -133,33 +134,17 @@
         {% endif %}
         <form method="post">
             {% csrf_token %}
-            <div class="salon">
-                <img src="{% static 'images/salon_a.jpg' %}" alt="Salón A">
-                <div class="salon-info">
-                    <h2>Salón A</h2>
-                    <p>Capacidad: 50 personas. Ideal para reuniones pequeñas y eventos corporativos.</p>
-                </div>
-                <input type="radio" name="salon" value="Salon A" {% if "Salon A" in salones_no_disponibles %}disabled{% endif %} required>
-            </div>
-
-            <div class="salon">
-                <img src="{% static 'images/salon_b.jpg' %}" alt="Salón B">
-                <div class="salon-info">
-                    <h2>Salón B</h2>
-                    <p>Capacidad: 100 personas. Perfecto para bodas, cumpleaños y conferencias.</p>
-                </div>
-                <input type="radio" name="salon" value="Salon B" {% if "Salon B" in salones_no_disponibles %}disabled{% endif %}>
-            </div>
-
-            <div class="salon">
-                <img src="{% static 'images/salon_c.jpg' %}" alt="Salón C">
-                <div class="salon-info">
-                    <h2>Salón C</h2>
-                    <p>Capacidad: 200 personas. Ideal para grandes eventos y galas.</p>
-                </div>
-                <input type="radio" name="salon" value="Salon C" {% if "Salon C" in salones_no_disponibles %}disabled{% endif %}>
-            </div>
-
+            {% for salon in salones %}
+                <div class="salon">
+                    <img src="{{ salon.image.url }}" alt="{{ salon.nombre }}">
+                    <div class="salon-info">
+                        <h2>{{ salon.nombre }}</h2>
+                        <p>Capacidad: {{ salon.capacidad_min }} - {{ salon.capacidad_max }} personas.</p>
+                        <p>{{ salon.caracteristicas }}</p>
+                    </div>
+                    <input type="radio" name="salon" value="{{ salon.nombre }}" {% if salon.nombre in salones_no_disponibles %}disabled{% endif %} required>
+                </div>            
+            {% endfor %}
             <button type="submit" class="boton">Confirmar Selección</button>
         </form>
     </div>

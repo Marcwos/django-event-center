@@ -95,7 +95,7 @@
             <div class="servicio">
                 <img src="{{ service.image.url }}" alt="{{ service.title }}">
                 <label>
-                    <input type="checkbox" name="servicios" value="{{ service.title }}">
+                    <input type="checkbox" name="servicios" value="{{ service.id }}"> <!-- Cambiado a service.id -->
                     {{ service.title }}
                     <span>{{ service.description }}</span>
                 </label>

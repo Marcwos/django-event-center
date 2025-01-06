@@ -1,3 +1,4 @@
+
 {% extends 'inicio/base.html' %}
 
 {% block content %}
@@ -19,7 +20,7 @@
                             Sin escenario
                         {% endif %}
                     </p>
-                    <p class="card-text">{{ salon.caracteristicas|default:"Sin características adicionales" }}</p>
+                    <p class="card-text">{{ salon.caracteristicas|default:"Sin características adicionales" }}		</p>
                     <a href="{% url 'edit_salon' salon.id %}" class="btn btn-primary">Editar</a>
                     <a href="{% url 'delete_salon' salon.id %}" class="btn btn-danger">Eliminar</a>
                 </div>
