@@ -5,7 +5,6 @@ import cloudinary.uploader
 import cloudinary.api
 from cloudinary import CloudinaryImage, CloudinaryVideo
 from dotenv import load_dotenv
-import dj_database_url
 
 # Cargar variables de entorno desde el archivo .env
 load_dotenv()
@@ -93,12 +92,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'event_center.wsgi.application'
 
-# Base de datos (configuración con dj_database_url para Render)
+# Base de datos (configuración para SQLite)
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgresql://postgres:postgres@localhost/postgres',
-        conn_max_age=600,
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 # Validación de contraseñas

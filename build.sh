@@ -2,7 +2,7 @@
 # Salir inmediatamente si ocurre un error
 set -o errexit  
 
-# Instalar dependencias si es necesario
+# Instalar dependencias
 pip install --upgrade pip
 pip install -r requirements.txt
 
