@@ -1,32 +1,29 @@
 import os
 from pathlib import Path
-import cloudinary 
+import cloudinary
 import cloudinary.uploader
 import cloudinary.api
-from cloudinary import CloudinaryImage 
-from cloudinary import CloudinaryVideo
-import cloudinary_storage
+from cloudinary import CloudinaryImage, CloudinaryVideo
 from dotenv import load_dotenv
 import dj_database_url
 
-#from dotenv import load_dotenv
-
 # Cargar variables de entorno desde el archivo .env
-#load_dotenv()
+load_dotenv()
 
 # Directorio base del proyecto
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Seguridad
-SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret key')
+SECRET_KEY = os.environ.get('SECRET_KEY', default='your-secret-key')
 DEBUG = 'RENDER' not in os.environ
 
-ALLOWED_HOSTS= []
-#ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
+ALLOWED_HOSTS = []
 
+# Configuración para Render
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+ALLOWED_HOSTS.append('localhost')  # Incluye localhost para pruebas locales
 
 # Aplicaciones instaladas
 INSTALLED_APPS = [
@@ -39,33 +36,30 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'inicio',
     'usuarios',
-    'contact',   # Aplicación de contacto
-    'servicios', # Aplicación de serviciosplicación de reservas
-    'reservas',  # Aplicación de reservas
-    'salones',   # Aplicacion de salones
+    'contact',
+    'servicios',
+    'reservas',
+    'salones',
     'cloudinary',
     'cloudinary_storage',
     'widget_tweaks',
-    
-
 ]
-load_dotenv()
 
-
+# Configuración de Cloudinary
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dcdygdkwi',
     'API_KEY': '571311729757641',
     'API_SECRET': 'sw1BB5lVFvWXU3C-UlBhkKRbyjI',
 }
 
-cloudinary.config( 
-    cloud_name = CLOUDINARY_STORAGE['CLOUD_NAME'],
-    api_key = CLOUDINARY_STORAGE['API_KEY'],
-    api_secret = CLOUDINARY_STORAGE['API_SECRET']
+cloudinary.config(
+    cloud_name=CLOUDINARY_STORAGE['CLOUD_NAME'],
+    api_key=CLOUDINARY_STORAGE['API_KEY'],
+    api_secret=CLOUDINARY_STORAGE['API_SECRET']
 )
 
-
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 # Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -102,9 +96,9 @@ WSGI_APPLICATION = 'event_center.wsgi.application'
 # Base de datos (configuración con dj_database_url para Render)
 DATABASES = {
     'default': dj_database_url.config(
-        default= 'postgresql://postgres:postgres@localhost/postgres',
-        conn_max_age=600),
-    
+        default='postgresql://postgres:postgres@localhost/postgres',
+        conn_max_age=600,
+    )
 }
 
 # Validación de contraseñas
@@ -124,14 +118,10 @@ USE_TZ = True
 # Archivos estáticos
 STATIC_URL = '/static/'
 if not DEBUG:
-    # Tell Django to copy static assets into a path called `staticfiles` (this is specific to Render)
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    # Enable the WhiteNoise storage backend, which compresses static files to reduce disk use
-    # and renames the files with unique names for each version to support long-term caching
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIR = [os.path.join(BASE_DIR, 'static')]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -150,7 +140,7 @@ ADMINS = [('Administrador', DEFAULT_ADMIN_EMAIL)]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = '/usuarios/login/'
-LOGOUT_REDIRECT_URL = '/'  # Redirigir al inicio después del logout
+LOGOUT_REDIRECT_URL = '/'
 
 # Modelo de usuario personalizado
 AUTH_USER_MODEL = 'usuarios.CustomUser'
@@ -165,7 +155,3 @@ JAZZMIN_SETTINGS = {
     'site_brand': "Centro de Eventos Tino Loco",
     'copyright': "tinoloco.com",
 }
-
-
-
-
