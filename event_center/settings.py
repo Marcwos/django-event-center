@@ -3,7 +3,6 @@ from pathlib import Path
 import cloudinary  
 import cloudinary.uploader  
 import cloudinary.api  
-from cloudinary import CloudinaryImage, CloudinaryVideo  
 from dotenv import load_dotenv  
 
 # Cargar variables de entorno desde el archivo .env  
@@ -46,9 +45,9 @@ INSTALLED_APPS = [
 
 # Configuración de Cloudinary  
 CLOUDINARY_STORAGE = {  
-    'CLOUD_NAME': 'dcdygdkwi',  
-    'API_KEY': '571311729757641',  
-    'API_SECRET': 'sw1BB5lVFvWXU3C-UlBhkKRbyjI',  
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME', 'dcdygdkwi'),  
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY', '571311729757641'),  
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET', 'sw1BB5lVFvWXU3C-UlBhkKRbyjI'),  
 }  
 
 cloudinary.config(  
@@ -63,7 +62,7 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 MIDDLEWARE = [  
     'django.middleware.security.SecurityMiddleware',  
     'django.contrib.sessions.middleware.SessionMiddleware',  
-    'whitenoise.middleware.WhiteNoiseMiddleware',  
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Whitenoise para servir archivos estáticos  
     'django.middleware.common.CommonMiddleware',  
     'django.middleware.csrf.CsrfViewMiddleware',  
     'django.contrib.auth.middleware.AuthenticationMiddleware',  
@@ -116,10 +115,9 @@ USE_TZ = True
 
 # Archivos estáticos  
 STATIC_URL = '/static/'  
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Configurado correctamente  
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Carpeta donde se recolectan los archivos estáticos  
 
-# Solo aplicar configuración de Whitenoise si no estás en modo DEBUG  
+# Configuración de Whitenoise para producción  
 if not DEBUG:  
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'  
 
@@ -140,16 +138,19 @@ ADMINS = [('Administrador', DEFAULT_ADMIN_EMAIL)]
 # Clave de campo primario por defecto  
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'  
 
+# Configuración de autenticación  
 LOGIN_URL = '/usuarios/login/'  
 LOGOUT_REDIRECT_URL = '/'  
 
 # Modelo de usuario personalizado  
 AUTH_USER_MODEL = 'usuarios.CustomUser'  
 
+# Configuración de sesiones  
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  
 SESSION_COOKIE_AGE = 1209600  
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'  
 
+# Configuración de Jazzmin  
 JAZZMIN_SETTINGS = {  
     "site_title": "Event Center",  
     'site_header': "Centro de Eventos",  
