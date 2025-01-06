@@ -7,6 +7,7 @@ from cloudinary import CloudinaryImage
 from cloudinary import CloudinaryVideo
 import cloudinary_storage
 from dotenv import load_dotenv
+import dj_database_url
 
 #from dotenv import load_dotenv
 
@@ -17,10 +18,15 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Seguridad
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-placeholder-key')
-DEBUG = os.getenv('DEBUG', 'True') == 'True'
-ALLOWED_HOSTS= ['*']
+SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret key')
+DEBUG = 'RENDER' not in os.environ
+
+ALLOWED_HOSTS= []
 #ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
+
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 # Aplicaciones instaladas
 INSTALLED_APPS = [
@@ -64,6 +70,7 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -92,12 +99,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'event_center.wsgi.application'
 
-# Base de datos
+# Base de datos (configuración con dj_database_url para Render)
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default= 'postgresql://postgres:postgres@localhost/postgres',
+        conn_max_age=600),
+    
 }
 
 # Validación de contraseñas
@@ -116,6 +123,13 @@ USE_TZ = True
 
 # Archivos estáticos
 STATIC_URL = '/static/'
+if not DEBUG:
+    # Tell Django to copy static assets into a path called `staticfiles` (this is specific to Render)
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    # Enable the WhiteNoise storage backend, which compresses static files to reduce disk use
+    # and renames the files with unique names for each version to support long-term caching
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIR = [os.path.join(BASE_DIR, 'static')]
 MEDIA_URL = '/media/'
@@ -151,3 +165,7 @@ JAZZMIN_SETTINGS = {
     'site_brand': "Centro de Eventos Tino Loco",
     'copyright': "tinoloco.com",
 }
+
+
+
+
