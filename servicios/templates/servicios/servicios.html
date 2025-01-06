@@ -9,72 +9,57 @@
         en diferentes áreas para que puedas mejorar la experiencia de tu celebración.
     </p>
 </div>
-
 <!-- Sección de tarjetas -->
 {% load static %}
 <div class="container my-5">
+    <!-- Botón para agregar servicios (solo si tiene permisos) -->
+    {% if can_add_service %}
+    <div class="text-end mb-4">
+        <a href="{% url 'manage_services' %}" class="btn btn-primary">
+            <i class="fas fa-cogs"></i> Gestionar Servicios
+        </a>
+    </div>
+    {% endif %}
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-4">
-        <!-- Tarjeta 1 -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="{% static 'inicio/img/arte-cocteleria.jpg' %}" class="card-img-top" alt="Servicio">
-
-                <div class="card-body text-center bg-light">
-                    <h5 class="card-title">SERVICIOS</h5>
-                    <p class="card-text">
-                        - Sonido <br>
-                        - Equipo de pantallas gigantes <br>
-                        - Iluminación <br>
-                        - Salón de cocina
-                    </p>
+        {% if services %}
+        {% for service in services %}
+            <div class="col">
+                <div class="card h-100">
+                    <img src="{{ service.image.url }}" class="card-img-top" alt="{{ service.title }}">
+                    <div class="card-body text-center bg-light">
+                        <h5 class="card-title">{{ service.title }}</h5>
+                        <p class="card-text">{{ service.description }}</p>
+                        <!-- Botón de Reservar -->
+                        <a href="{% url 'reservas:seleccionar_fechas' %}" class="btn-reservar">Reservar</a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <!-- Tarjeta 2 -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="{% static 'inicio/img/arte-cocteleria.jpg' %}" class="card-img-top" alt="Servicio">
-                <div class="card-body text-center bg-light">
-                    <h5 class="card-title">SERVICIOS</h5>
-                    <p class="card-text">
-                        - Sonido <br>
-                        - Equipo de pantallas gigantes <br>
-                        - Iluminación <br>
-                        - Salón de cocina
-                    </p>
-                </div>
-            </div>
-        </div>
-        <!-- Tarjeta 3 -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="{% static 'inicio/img/arte-cocteleria.jpg' %}" class="card-img-top" alt="Servicio">
-                <div class="card-body text-center bg-light">
-                    <h5 class="card-title">SERVICIOS</h5>
-                    <p class="card-text">
-                        - Sonido <br>
-                        - Equipo de pantallas gigantes <br>
-                        - Iluminación <br>
-                        - Salón de cocina
-                    </p>
-                </div>
-            </div>
-        </div>
-        <!-- Tarjeta 4 -->
-        <div class="col">
-            <div class="card h-100">
-                <img src="{% static 'inicio/img/arte-cocteleria.jpg' %}" class="card-img-top" alt="Servicio">
-                <div class="card-body text-center bg-light">
-                    <h5 class="card-title">SERVICIOS</h5>
-                    <p class="card-text">
-                        - Sonido <br>
-                        - Equipo de pantallas gigantes <br>
-                        - Iluminación <br>
-                        - Salón de cocina
-                    </p>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
+        {% else %}
+            <p>No hay servicios disponibles en este momento.</p>
+        {% endif %}
+        
     </div>
 </div>
+
+<style>
+    .btn-reservar {
+        background-color: #f8bf1a; /* Cambia este valor al color que prefieras */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 5px; /* Opcional: redondea las esquinas */
+        transition: background-color 0.3s ease; /* Añade una transición suave */
+    }
+
+    .btn-reservar:hover {
+        background-color: #e04e2a; /* Color al pasar el ratón por encima */
+    }
+</style>
 {% endblock %}

@@ -1,0 +1,153 @@
+{% extends 'inicio/base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <title>Seleccionar Salón</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .contenedor {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #003366;
+            margin-bottom: 30px;
+        }
+
+        .salon {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .salon:nth-child(odd) {
+            flex-direction: row-reverse;
+        }
+
+        .salon:hover {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .salon img {
+            width: 150px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin: 0 20px;
+        }
+
+        .salon-info {
+            flex: 1;
+            text-align: left;
+        }
+
+        .salon:nth-child(odd) .salon-info {
+            text-align: right;
+        }
+
+        .salon-info h2 {
+            margin: 0;
+            color: #333;
+            font-size: 20px;
+        }
+
+        .salon-info p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .salon input {
+            margin-left: 20px;
+            padding: 10px 15px;
+            background-color: #003366;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .salon input:hover {
+            background-color: #00509e;
+        }
+
+        .boton {
+            display: block;
+            width: 100%;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: #003366;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .boton:hover {
+            background-color: #00509e;
+        }
+
+        input[type="radio"]:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <header>Selecciona un Salón</header>
+    <div class="contenedor">
+        <h1>Salones Disponibles</h1>
+        {% if error %}
+            <p style="color: red;">{{ error }}</p>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            {% for salon in salones %}
+                <div class="salon">
+                    <img src="{{ salon.image.url }}" alt="{{ salon.nombre }}">
+                    <div class="salon-info">
+                        <h2>{{ salon.nombre }}</h2>
+                        <p>Capacidad: {{ salon.capacidad_min }} - {{ salon.capacidad_max }} personas.</p>
+                        <p>{{ salon.caracteristicas }}</p>
+                    </div>
+                    <input type="radio" name="salon" value="{{ salon.nombre }}" {% if salon.nombre in salones_no_disponibles %}disabled{% endif %} required>
+                </div>            
+            {% endfor %}
+            <button type="submit" class="boton">Confirmar Selección</button>
+        </form>
+    </div>
+</body>
+</html>
+{% endblock %}

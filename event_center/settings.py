@@ -1,5 +1,9 @@
 import os
 from pathlib import Path
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+from cloudinary import CloudinaryImage, CloudinaryVideo
 from dotenv import load_dotenv
 
 # Cargar variables de entorno desde el archivo .env
@@ -9,27 +13,57 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Seguridad
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-placeholder-key')
-DEBUG = os.getenv('DEBUG', 'True') == 'True'
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
+SECRET_KEY = os.environ.get('SECRET_KEY', default='your-secret-key')
+DEBUG = 'RENDER' not in os.environ
+
+ALLOWED_HOSTS = []
+
+# Configuración para Render
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+ALLOWED_HOSTS.append('localhost')  # Incluye localhost para pruebas locales
 
 # Aplicaciones instaladas
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'inicio',    # Aplicación de inicio
-    'usuarios',  # Aplicación de usuarios
-    'contact',   # Aplicación de contacto
-    'servicios',] # Aplicación de servicios
+    'inicio',
+    'usuarios',
+    'contact',
+    'servicios',
+    'reservas',
+    'salones',
+    'cloudinary',
+    'cloudinary_storage',
+    'widget_tweaks',
+]
+
+# Configuración de Cloudinary
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dcdygdkwi',
+    'API_KEY': '571311729757641',
+    'API_SECRET': 'sw1BB5lVFvWXU3C-UlBhkKRbyjI',
+}
+
+cloudinary.config(
+    cloud_name=CLOUDINARY_STORAGE['CLOUD_NAME'],
+    api_key=CLOUDINARY_STORAGE['API_KEY'],
+    api_secret=CLOUDINARY_STORAGE['API_SECRET']
+)
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -43,7 +77,7 @@ ROOT_URLCONF = 'event_center.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'inicio/templates/inicio')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -58,16 +92,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'event_center.wsgi.application'
 
-# Base de datos
+# Base de datos (configuración para SQLite)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
-# Modelo de usuario personalizado
-AUTH_USER_MODEL = 'usuarios.CustomUser'
 
 # Validación de contraseñas
 AUTH_PASSWORD_VALIDATORS = [
@@ -84,8 +115,14 @@ USE_I18N = True
 USE_TZ = True
 
 # Archivos estáticos
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_URL = '/static/'
+if not DEBUG:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Configuración de correo SMTP
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -100,3 +137,20 @@ ADMINS = [('Administrador', DEFAULT_ADMIN_EMAIL)]
 
 # Clave de campo primario por defecto
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_URL = '/usuarios/login/'
+LOGOUT_REDIRECT_URL = '/'
+
+# Modelo de usuario personalizado
+AUTH_USER_MODEL = 'usuarios.CustomUser'
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 1209600
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Event Center",
+    'site_header': "Centro de Eventos",
+    'site_brand': "Centro de Eventos Tino Loco",
+    'copyright': "tinoloco.com",
+}

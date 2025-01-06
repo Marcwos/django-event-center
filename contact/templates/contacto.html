@@ -1,3 +1,4 @@
+
 {% extends 'inicio/base.html' %}
 {% load static %}
 
@@ -16,17 +17,18 @@
 
 <div class="contact-form">
     <h2>ENVÍANOS UN MENSAJE:</h2>
-    <div class="form-grid">
-        <input type="text" placeholder="Tu Nombre">
-        <input type="email" placeholder="Correo Electrónico">
-        <input type="text" placeholder="Número de Pedido">
-    </div>
-    <textarea placeholder="Tu Mensaje"></textarea>
     <form method="POST" action="{% url 'contacto' %}">
         {% csrf_token %}
+        <div class="form-grid">
+            <input type="text" name="nombre" placeholder="Tu Nombre" required>
+            <input type="email" name="correo" placeholder="Correo Electrónico" required>
+            <input type="text" name="numero_pedido" placeholder="Número de Pedido" required>
+        </div>
+        <textarea name="mensaje" placeholder="Tu Mensaje" required></textarea>
         <div class="form-actions">
-            <button class="submit-btn">ENVIAR MENSAJE</button>
+            <button class="submit-btn" type="submit">ENVIAR MENSAJE</button>
         </div>
     </form>
 </div>
+
 {% endblock %}

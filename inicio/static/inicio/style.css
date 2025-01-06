@@ -1,0 +1,64 @@
+/* General navbar link styles */
+.nav-link {
+    color: white; /* Asegura que las letras sean blancas */
+    position: relative;
+    transition: color 0.3s ease; /* Transición suave para el color */
+    padding: 10px 15px; /* Espaciado entre los enlaces */
+    text-decoration: none; /* Sin subrayado inicial */
+    font-size: 16px; /* Tamaño de texto ajustable */
+}
+
+/* Subrayado animado para enlaces */
+.nav-link::after {
+    content: ''; /* Genera el subrayado */
+    position: absolute;
+    left: 0;
+    bottom: -3px; /* Ajusta la posición debajo del texto */
+    width: 0;
+    height: 2px; /* Grosor de la barra */
+    background-color: white; /* Color de la barra */
+    transition: width 0.3s ease; /* Efecto de animación */
+}
+
+/* Hover effect */
+.nav-link:hover::after {
+    width: 100%; /* Se extiende al 100% del ancho del enlace */
+}
+
+.nav-link:hover {
+    color: #f0f0f0; /* Cambia ligeramente el color del texto al pasar el mouse */
+}
+
+/* Estilo general del body */
+body {
+    background-color: #EAEBEB;
+    height: 2000px; /* Simulación de página larga */
+    margin: 0; /* Elimina márgenes del body */
+    padding-top: 60px; /* Espacio para la navbar fija */
+}
+
+/* Estilos para la barra de navegación */
+.navbar {
+    background-color: #333; /* Fondo oscuro */
+    color: white; /* Texto blanco */
+    position: fixed; /* Fija la navbar en la parte superior */
+    top: 0;
+    left: 0;
+    width: 100%; /* Ocupa todo el ancho de la pantalla */
+    height: 60px; /* Altura de la navbar */
+    display: flex; /* Diseño flexible para alinear los elementos */
+    align-items: center; /* Centra verticalmente los elementos */
+    justify-content: space-around; /* Espaciado uniforme entre los enlaces */
+    z-index: 1000; /* Asegura que esté siempre visible */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil para el header */
+}
+
+/* Estilo para el logo o marca */
+.navbar-brand {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none; /* Sin subrayado */
+}
+
+

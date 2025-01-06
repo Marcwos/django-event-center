@@ -1,0 +1,38 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center fw-bold mb-5">Salones de todo tipo</h2>
+
+    <!-- Botón para gestionar salones (solo si tiene permisos) -->
+    {% if can_add_salon %}
+    <div class="text-end mb-4">
+        <a href="{% url 'manage_salones' %}" class="btn btn-primary">
+            <i class="fas fa-cogs"></i> Gestionar Salones
+        </a>
+    </div>
+    {% endif %}
+
+    <!-- Lista de salones -->
+    <div class="row mb-5">
+        {% for salon in salones %}
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <img src="{{ salon.image.url }}" class="card-img-top" alt="{{ salon.nombre }}" style="max-height: 200px; object-fit: cover;">
+                <div class="card-body text-center">
+                    <h5 class="card-title fw-bold text-uppercase">{{ salon.nombre }}</h5>
+                    <ul class="list-unstyled mb-4">
+                        <li>Capacidad: {{ salon.capacidad_rango }} personas aprox.</li>
+                        <li>Capacidad máxima: {{ salon.capacidad_max }}</li>
+                        <li>Escenario: {{ salon.tiene_escenario|yesno:"Sí,No" }}</li>
+                        <li>Características: {{ salon.caracteristicas|default:"N/A" }}</li>
+                    </ul>
+                    <a href="{% url 'reservas:seleccionar_fechas' %}" class="btn btn-warning w-100">Reservar Ahora</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
